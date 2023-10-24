@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.Class_CRUD_UsuarioCL2_Imp;
+import Model.TblUsuariocl2;
+
 /**
  * Servlet implementation class LogueoController
  */
@@ -17,23 +20,39 @@ public class LogueoController extends HttpServlet {
      */
     public LogueoController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
+		String usuariocl2 = request.getParameter("usuariocl2");
+		String passwordcl2 = request.getParameter("passwordcl2");
+		//
+		TblUsuariocl2 U = new TblUsuariocl2();
+		Class_CRUD_UsuarioCL2_Imp Uimp = new Class_CRUD_UsuarioCL2_Imp();
+		//
+		U.setUsuariocl2(usuariocl2);
+		U.setPasswordcl2(passwordcl2);
+		//
+		String msj;
+		//
+		if(Uimp.ValidarUsuario(U) != null) {
+			msj = "Ingreso Validio";
+			request.setAttribute("msj", msj);
+			request.getRequestDispatcher("/GestionProducto.jsp").forward(request, response);
+		}else {
+			msj = "Ingreso No valido";
+			request.setAttribute("msj", msj);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}
 	}
-
 }
